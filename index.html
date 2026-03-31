@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$PKID — Penguin Kid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka+One&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ice: #e0f7ff;
+    --deep: #0a1628;
+    --blue: #1a73e8;
+    --cyan: #00cfff;
+    --yellow: #ffe600;
+    --orange: #ff6b00;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--white);
+    font-family: 'Fredoka One', cursive;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='28' font-size='28'%3E🐧%3C/text%3E%3C/svg%3E"), auto;
+  }
+
+  /* ─── STARS ─── */
+  .stars {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(1px 1px at 10% 15%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 10%, #aef 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 30%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 85% 60%, #aef 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 80%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 85%, #fff 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 40px;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--cyan);
+  }
+  .nav-logo {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px var(--cyan);
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    overflow: hidden;
+  }
+
+  /* ice ground */
+  .hero::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 180px;
+    background: linear-gradient(to top, #c8f0ff22, transparent);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    background: var(--yellow);
+    color: var(--deep);
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    padding: 6px 20px;
+    border-radius: 999px;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* big penguin emoji in hero */
+  .hero-video-wrap {
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 28px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 50px #00cfff44, 0 0 100px #00cfff22;
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  .hero-video-wrap video {
+    width: 100%;
+    display: block;
+    border-radius: 20px;
+  }
+  @keyframes glow-pulse {
+    0%,100% { box-shadow: 0 0 40px #00cfff44, 0 0 80px #00cfff22; }
+    50%      { box-shadow: 0 0 60px #00cfff88, 0 0 120px #00cfff44; }
+  }
+
+  .hero h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(4rem, 14vw, 10rem);
+    line-height: .95;
+    color: var(--cyan);
+    text-shadow: 6px 6px 0 var(--blue), 0 0 60px #00cfff66;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 span { color: var(--yellow); text-shadow: 4px 4px 0 var(--orange); }
+
+  .hero-sub {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--ice);
+    max-width: 600px;
+    margin: 0 auto 36px;
+    opacity: .9;
+  }
+
+  .btn-group { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+  .btn {
+    display: inline-block;
+    padding: 16px 36px;
+    border-radius: 12px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: transform .15s, box-shadow .15s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn:hover { transform: translateY(-3px) scale(1.03); }
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--deep);
+    box-shadow: 0 8px 0 var(--orange);
+  }
+  .btn-primary:hover { box-shadow: 0 4px 0 var(--orange); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--cyan);
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 20px #00cfff44;
+  }
+  .btn-secondary:hover { background: #00cfff22; }
+
+  /* floating snowflakes */
+  .snow { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .flake {
+    position: absolute;
+    top: -20px;
+    color: white;
+    font-size: 1.2rem;
+    animation: fall linear infinite;
+    opacity: .4;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ─── ABOUT ─── */
+  section { position: relative; z-index: 1; padding: 100px 20px; scroll-margin-top: 70px; }
+
+  .section-title {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    text-align: center;
+    color: var(--cyan);
+    text-shadow: 4px 4px 0 var(--blue);
+    letter-spacing: 3px;
+    margin-bottom: 60px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: rgba(255,255,255,.04);
+    border: 1.5px solid rgba(0,207,255,.25);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: var(--cyan);
+    box-shadow: 0 0 30px #00cfff33;
+  }
+  .card-icon { font-size: 3rem; margin-bottom: 16px; }
+  .card h3 { font-size: 1.5rem; color: var(--yellow); margin-bottom: 10px; }
+  .card p  { color: #aad8f0; line-height: 1.5; font-family: 'Comic Neue', cursive; }
+
+  /* ─── TOKENOMICS ─── */
+  .token-section { background: rgba(0,207,255,.03); }
+
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .token-card {
+    background: linear-gradient(135deg, #0d2137, #0a1628);
+    border: 2px solid var(--cyan);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .token-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, #00cfff22, transparent 70%);
+  }
+  .token-num {
+    font-family: 'Bangers', cursive;
+    font-size: 2.2rem;
+    color: var(--yellow);
+    text-shadow: 2px 2px 0 var(--orange);
+  }
+  .token-label { font-size: 1rem; color: #90c8e0; margin-top: 6px; }
+
+  /* ─── ROADMAP ─── */
+  .roadmap-list {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .roadmap-list::before {
+    content: '';
+    position: absolute;
+    left: 28px; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--cyan), var(--blue));
+    border-radius: 99px;
+  }
+
+  .road-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 48px;
+    padding-left: 16px;
+  }
+  .road-dot {
+    width: 28px; height: 28px;
+    min-width: 28px;
+    background: var(--cyan);
+    border-radius: 50%;
+    border: 3px solid var(--deep);
+    box-shadow: 0 0 12px var(--cyan);
+    margin-top: 4px;
+    position: relative; z-index: 1;
+  }
+  .road-dot.done { background: var(--yellow); box-shadow: 0 0 12px var(--yellow); }
+  .road-content h4 { font-size: 1.4rem; color: var(--cyan); margin-bottom: 8px; }
+  .road-content p  { color: #90c8e0; font-family: 'Comic Neue', cursive; line-height: 1.6; }
+
+  /* ─── HOW TO BUY ─── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .step {
+    background: rgba(255,255,255,.04);
+    border: 1.5px solid rgba(0,207,255,.2);
+    border-radius: 18px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: transform .2s;
+  }
+  .step:hover { transform: scale(1.04); border-color: var(--cyan); }
+  .step-num {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    color: var(--yellow);
+    text-shadow: 3px 3px 0 var(--orange);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .step h4 { color: var(--cyan); font-size: 1.3rem; margin-bottom: 8px; }
+  .step p  { color: #90c8e0; font-family: 'Comic Neue', cursive; line-height: 1.5; font-size: .95rem; }
+
+  /* ─── TICKER BAR ─── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--cyan);
+    padding: 10px 0;
+    position: relative; z-index: 1;
+  }
+  .ticker-inner {
+    display: flex;
+    white-space: nowrap;
+    animation: ticker 20s linear infinite;
+    gap: 0;
+  }
+  .ticker-item {
+    padding: 0 32px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    color: var(--deep);
+    letter-spacing: 2px;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid rgba(0,207,255,.15);
+    font-family: 'Comic Neue', cursive;
+    color: #4a7a99;
+    font-size: .9rem;
+    line-height: 1.8;
+  }
+  footer .footer-logo {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    color: var(--cyan);
+    text-shadow: 0 0 30px var(--cyan);
+    margin-bottom: 12px;
+  }
+  footer a { color: var(--cyan); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 24px auto;
+    background: rgba(255,255,255,.06);
+    border: 1.5px solid rgba(0,207,255,.3);
+    border-radius: 999px;
+    padding: 14px 32px;
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Bangers', cursive;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    transition: background .2s, border-color .2s;
+  }
+  .social-link:hover { background: rgba(0,207,255,.15); border-color: var(--cyan); }
+
+  /* ─── MARQUEE PENGUINS ─── */
+  .marquee-wrap {
+    overflow: hidden;
+    padding: 20px 0;
+    position: relative; z-index: 1;
+  }
+  .marquee-inner {
+    display: flex;
+    animation: marquee 15s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item { font-size: 3rem; padding: 0 16px; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* meme warning */
+  .meme-disclaimer {
+    background: rgba(255,230,0,.08);
+    border: 1.5px solid var(--yellow);
+    border-radius: 14px;
+    padding: 20px 28px;
+    max-width: 700px;
+    margin: 0 auto 40px;
+    font-family: 'Comic Neue', cursive;
+    color: #ffd966;
+    font-size: .95rem;
+    line-height: 1.6;
+  }
+
+  /* scroll animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<!-- snow particles -->
+<div class="snow" id="snow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🐧 $PKID</div>
+  <div class="nav-links">
+    <a href="#" onclick="scrollTo('about'); return false;">About</a>
+    <a href="#" onclick="scrollTo('tokenomics'); return false;">Tokenomics</a>
+    <a href="#" onclick="scrollTo('roadmap'); return false;">Roadmap</a>
+    <a href="#" onclick="scrollTo('buy'); return false;">How to Buy</a>
+    <a href="https://x.com" target="_blank">𝕏</a>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    <span class="ticker-item">🐧 $PKID — THE PENGUIN KID IS HERE</span>
+    <span class="ticker-item">❄️ LAUNCHED ON PUMP.FUN</span>
+    <span class="ticker-item">🚀 TO THE IGLOO AND BEYOND</span>
+    <span class="ticker-item">🐧 $PKID — THE PENGUIN KID IS HERE</span>
+    <span class="ticker-item">❄️ LAUNCHED ON PUMP.FUN</span>
+    <span class="ticker-item">🚀 TO THE IGLOO AND BEYOND</span>
+    <span class="ticker-item">🐧 $PKID — THE PENGUIN KID IS HERE</span>
+    <span class="ticker-item">❄️ LAUNCHED ON PUMP.FUN</span>
+    <span class="ticker-item">🚀 TO THE IGLOO AND BEYOND</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🧊 LAUNCHED ON PUMP.FUN 🧊</div>
+
+  <div class="hero-video-wrap">
+    <video autoplay loop muted playsinline>
+      <source src="penguin-kid.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <h1>PENGUIN<br><span>KID</span></h1>
+  <p class="hero-sub">The coolest little dude waddled onto Solana.</p>
+  <div class="btn-group">
+    <a href="https://pump.fun" target="_blank" class="btn btn-primary">🚀 Buy on Pump.fun</a>
+    <a href="https://x.com" target="_blank" class="btn btn-secondary">𝕏 Join Community</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner" id="marquee">
+    <span class="marquee-item">🐧</span><span class="marquee-item">❄️</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🧊</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">⭐</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🚀</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">❄️</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🧊</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">⭐</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🚀</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">❄️</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🧊</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">⭐</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🚀</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">❄️</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🧊</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">⭐</span>
+    <span class="marquee-item">🐧</span><span class="marquee-item">🚀</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title reveal">WHO IS PKID? 🐧</h2>
+  <div class="about-grid">
+    <div class="card reveal">
+      <div class="card-icon">🧊</div>
+      <h3>Born on Ice</h3>
+      <p>This little penguin kid went viral for being the most unbothered, coolest creature on the internet. No cap, full send.</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon">🚀</div>
+      <h3>Pure Meme Energy</h3>
+      <p>$PKID is 100% community driven. No dev wallet shenanigans, no VC unlocks — just the penguin and the people.</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon">❄️</div>
+      <h3>Solana Native</h3>
+      <p>Launched fair on Pump.fun. Fast, cheap, and cold as ice. The way a memecoin was meant to be.</p>
+    </div>
+    <div class="card reveal">
+      <div class="card-icon">🐧</div>
+      <h3>Community First</h3>
+      <p>Our home is 𝕏. Join the flock, post the penguin, spread the waddling chaos. GM every day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section id="tokenomics" class="token-section">
+  <h2 class="section-title reveal">TOKENOMICS ❄️</h2>
+  <div class="token-grid">
+    <div class="token-card reveal">
+      <div class="token-num">1B</div>
+      <div class="token-label">Total Supply</div>
+    </div>
+    <div class="token-card reveal">
+      <div class="token-num">0%</div>
+      <div class="token-label">Dev Tax</div>
+    </div>
+    <div class="token-card reveal">
+      <div class="token-num">0%</div>
+      <div class="token-label">Buy / Sell Tax</div>
+    </div>
+    <div class="token-card reveal">
+      <div class="token-num">🔥</div>
+      <div class="token-label">LP Burned</div>
+    </div>
+    <div class="token-card reveal">
+      <div class="token-num">SOL</div>
+      <div class="token-label">Chain</div>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:40px; color:#4a7a99; font-family:'Comic Neue',cursive; font-size:.95rem;">
+    Contract: <span style="color:var(--cyan);">TBA at launch on pump.fun</span>
+  </p>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <h2 class="section-title reveal">THE WADDLE MAP 🗺️</h2>
+  <div class="roadmap-list">
+    <div class="road-item reveal">
+      <div class="road-dot done"></div>
+      <div class="road-content">
+        <h4>Phase 1 — Hatch 🥚</h4>
+        <p>Token launch on Pump.fun. Join the flock on 𝕏.</p>
+      </div>
+    </div>
+    <div class="road-item reveal">
+      <div class="road-dot"></div>
+      <div class="road-content">
+        <h4>Phase 2 — Waddle 🐧</h4>
+        <p>Community growing. Dexscreener update at 30K Mkt Cap.</p>
+      </div>
+    </div>
+    <div class="road-item reveal">
+      <div class="road-dot"></div>
+      <div class="road-content">
+        <h4>Phase 3 — Fly 🚀</h4>
+        <p>Migration. $PKID takes over CT.</p>
+      </div>
+    </div>
+    <div class="road-item reveal">
+      <div class="road-dot"></div>
+      <div class="road-content">
+        <h4>Phase 4 — Dominate 🌍</h4>
+        <p>Dev Buy Backs, Boost and Ads with creator fees to support $PKID community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO BUY -->
+<section id="buy" style="background: rgba(0,207,255,.02);">
+  <h2 class="section-title reveal">HOW TO BUY 🛒</h2>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <h4>Get a Wallet</h4>
+      <p>Download Phantom or Solflare. Set it up and keep your seed phrase safe. Not your keys, not your penguin.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <h4>Buy SOL</h4>
+      <p>Buy SOL on any exchange (Binance, Coinbase, Kraken) and send it to your Phantom wallet.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <h4>Go to Pump.fun</h4>
+      <p>Visit pump.fun, search for $PKID or paste the contract address. Connect your wallet.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <h4>Ape In 🐧</h4>
+      <p>Swap your SOL for $PKID. Welcome to the flock. Now go post a penguin meme on 𝕏.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align:center; padding: 80px 20px;">
+  <h2 class="section-title reveal">JOIN THE FLOCK 🐧</h2>
+  <p style="color:#90c8e0; max-width:500px; margin: 0 auto 32px; font-family:'Comic Neue',cursive; font-size:1.1rem; line-height:1.7;">
+    Our entire community lives on 𝕏 (Twitter). Follow us, post memes, tag friends.<br>
+    The penguin kid demands it.
+  </p>
+  <a href="https://x.com" target="_blank" class="social-link reveal">
+    <span>𝕏</span> Follow @PKID on X
+  </a>
+
+  <div class="meme-disclaimer reveal">
+    ⚠️ <strong>$PKID is a meme coin with no intrinsic value or financial promise.</strong> It exists purely for entertainment and community. Always do your own research. Never invest more than you can afford to lose. This is not financial advice.
+  </div>
+
+  <a href="https://pump.fun" target="_blank" class="btn btn-primary" style="font-size:1.8rem; padding:20px 48px;">
+    🚀 Buy $PKID on Pump.fun
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🐧 $PKID</div>
+  <p>Penguin Kid — The Coolest Memecoin on Solana</p>
+  <p style="margin-top:8px;">
+    <a href="https://pump.fun" target="_blank">Pump.fun</a> &nbsp;·&nbsp;
+    <a href="https://x.com" target="_blank">𝕏 Community</a>
+  </p>
+  <p style="margin-top:24px; font-size:.8rem;">
+    $PKID is a meme token. No financial advice. DYOR. Made with ❄️ by the PKID flock.
+  </p>
+</footer>
+
+<script>
+  // Smooth scroll
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Snow
+  const snow = document.getElementById('snow');
+  for (let i = 0; i < 40; i++) {
+    const f = document.createElement('div');
+    f.className = 'flake';
+    f.textContent = ['❄','❅','❆','·','*'][Math.floor(Math.random()*5)];
+    f.style.left = Math.random()*100 + 'vw';
+    f.style.fontSize = (0.8 + Math.random()*1.4) + 'rem';
+    f.style.animationDuration = (6 + Math.random()*12) + 's';
+    f.style.animationDelay = -(Math.random()*15) + 's';
+    f.style.opacity = 0.2 + Math.random()*0.3;
+    snow.appendChild(f);
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
