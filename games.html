@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$PKID — Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka+One&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ice: #e0f7ff;
+    --deep: #0a1628;
+    --blue: #1a73e8;
+    --cyan: #00cfff;
+    --yellow: #ffe600;
+    --orange: #ff6b00;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--white);
+    font-family: 'Fredoka One', cursive;
+    overflow-x: hidden;
+    min-height: 100vh;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='28' font-size='28'%3E🐧%3C/text%3E%3C/svg%3E"), auto;
+  }
+
+  /* STARS */
+  .stars {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(1px 1px at 10% 15%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 10%, #aef 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 30%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 85% 60%, #aef 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 80%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 85%, #fff 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* SNOW */
+  .snow { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .flake { position: absolute; top: -20px; color: white; animation: fall linear infinite; opacity: .3; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 40px;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--cyan);
+  }
+  .nav-logo {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px var(--cyan);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    transition: color .2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+
+  /* HERO */
+  .games-hero {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 80px 20px 50px;
+  }
+  .games-hero h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    color: var(--cyan);
+    text-shadow: 5px 5px 0 var(--blue), 0 0 60px #00cfff44;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+  .games-hero h1 span { color: var(--yellow); text-shadow: 4px 4px 0 var(--orange); }
+  .games-hero p {
+    font-size: 1.3rem;
+    color: var(--ice);
+    opacity: .85;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* GAMES GRID */
+  .games-section {
+    position: relative; z-index: 1;
+    padding: 40px 40px 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+  }
+
+  /* GAME CARD */
+  .game-card {
+    background: rgba(255,255,255,.04);
+    border: 2px solid rgba(0,207,255,.25);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .game-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--cyan);
+    box-shadow: 0 0 40px #00cfff33;
+  }
+
+  .game-thumb {
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-thumb.arctic {
+    background: linear-gradient(135deg, #0a1628, #0d3d6b, #1a73e8);
+  }
+  .game-thumb.coming-soon {
+    background: linear-gradient(135deg, #0a1628, #1a1a2e);
+    filter: grayscale(.5);
+  }
+  .game-thumb .thumb-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, #00cfff22, transparent 70%);
+  }
+  .game-thumb .thumb-emoji {
+    position: relative; z-index: 1;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+
+  .game-badge {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--yellow);
+    color: var(--deep);
+    font-family: 'Bangers', cursive;
+    font-size: .85rem;
+    letter-spacing: 1.5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .game-badge.soon {
+    background: rgba(255,255,255,.15);
+    color: rgba(255,255,255,.6);
+  }
+
+  .game-info {
+    padding: 24px 24px 28px;
+  }
+  .game-info h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .game-info p {
+    font-family: 'Comic Neue', cursive;
+    color: #90c8e0;
+    font-size: .95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .play-btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--deep);
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    padding: 10px 28px;
+    border-radius: 10px;
+    box-shadow: 0 5px 0 var(--orange);
+    transition: transform .15s, box-shadow .15s;
+    text-decoration: none;
+  }
+  .play-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 0 var(--orange);
+  }
+  .play-btn.disabled {
+    background: rgba(255,255,255,.1);
+    color: rgba(255,255,255,.4);
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* COMING SOON OVERLAY */
+  .coming-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,.3);
+    background: rgba(10,22,40,.5);
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 1rem;
+    margin-bottom: 40px;
+    opacity: .8;
+    transition: opacity .2s;
+  }
+  .back-link:hover { opacity: 1; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(0,207,255,.15);
+    font-family: 'Comic Neue', cursive;
+    color: #4a7a99;
+    font-size: .85rem;
+  }
+  footer a { color: var(--cyan); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="snow" id="snow"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">🐧 $PKID</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#tokenomics">Tokenomics</a>
+    <a href="index.html#roadmap">Roadmap</a>
+    <a href="games.html" class="active">🎮 Games</a>
+    <a href="https://x.com/i/communities/2039390400180257155" target="_blank">𝕏</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="games-hero">
+  <h1>PKID <span>GAMES</span> 🎮</h1>
+  <p>Play, compete & waddle your way to the top. More games coming soon!</p>
+</div>
+
+<!-- GAMES -->
+<div class="games-section">
+  <a href="back-link" onclick="history.back(); return false;" class="back-link">← Back to Homepage</a>
+
+  <div class="games-grid">
+
+    <!-- GAME 1: Arctic Adventure -->
+    <a href="pkid-adventure-game.html" class="game-card">
+      <div class="game-thumb arctic">
+        <div class="thumb-glow"></div>
+        <span class="thumb-emoji">🐧</span>
+        <div class="game-badge">PLAY NOW</div>
+      </div>
+      <div class="game-info">
+        <h3>ARCTIC ADVENTURE</h3>
+        <p>Guide the Penguin Kid through the frozen tundra. Dodge obstacles, collect fish and reach the igloo!</p>
+        <span class="play-btn">🚀 PLAY NOW</span>
+      </div>
+    </a>
+
+    <!-- GAME 2: Coming Soon -->
+    <div class="game-card" style="cursor:default;">
+      <div class="game-thumb coming-soon" style="position:relative;">
+        <div class="thumb-glow"></div>
+        <span class="thumb-emoji" style="filter:grayscale(1); opacity:.4;">❄️</span>
+        <div class="game-badge soon">COMING SOON</div>
+        <div class="coming-overlay">??? MYSTERY GAME</div>
+      </div>
+      <div class="game-info">
+        <h3 style="color:#4a7a99;">MYSTERY GAME</h3>
+        <p>The next PKID game is in the igloo being cooked. Stay tuned on 𝕏 for the reveal!</p>
+        <span class="play-btn disabled">🔒 COMING SOON</span>
+      </div>
+    </div>
+
+    <!-- GAME 3: Coming Soon -->
+    <div class="game-card" style="cursor:default;">
+      <div class="game-thumb coming-soon" style="position:relative;">
+        <div class="thumb-glow"></div>
+        <span class="thumb-emoji" style="filter:grayscale(1); opacity:.4;">🧊</span>
+        <div class="game-badge soon">COMING SOON</div>
+        <div class="coming-overlay">??? MYSTERY GAME</div>
+      </div>
+      <div class="game-info">
+        <h3 style="color:#4a7a99;">MYSTERY GAME</h3>
+        <p>Another frozen adventure is on the way. Follow the flock to be the first to know!</p>
+        <span class="play-btn disabled">🔒 COMING SOON</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>🐧 $PKID Games — <a href="index.html">Back to main site</a> · <a href="https://x.com/i/communities/2039390400180257155" target="_blank">𝕏 Community</a></p>
+  <p style="margin-top:8px;">$PKID is a meme token. No financial advice. DYOR. Made with ❄️ by the dev <a href="https://x.com/idrawlaunches" target="_blank">@idrawlaunches</a></p>
+</footer>
+
+<script>
+  // Snow
+  const snow = document.getElementById('snow');
+  for (let i = 0; i < 30; i++) {
+    const f = document.createElement('div');
+    f.className = 'flake';
+    f.textContent = ['❄','❅','❆','·','*'][Math.floor(Math.random()*5)];
+    f.style.left = Math.random()*100 + 'vw';
+    f.style.fontSize = (0.8 + Math.random()*1.2) + 'rem';
+    f.style.animationDuration = (6 + Math.random()*12) + 's';
+    f.style.animationDelay = -(Math.random()*15) + 's';
+    f.style.opacity = 0.2 + Math.random()*0.25;
+    snow.appendChild(f);
+  }
+</script>
+</body>
+</html>
